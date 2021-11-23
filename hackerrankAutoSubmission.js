@@ -53,20 +53,6 @@ initBrowser
         console.log("Challenge is solved!");
     })
 
-function waitAndClick(selector, page) {
-    return new Promise(function (resolve, reject) {
-        let waitingForSelector = page.waitForSelector(selector, { visible: true });
-        waitingForSelector.then(function () {
-            let clickingSelector = page.click(selector, { delay: 100 });
-            return clickingSelector;
-        }).then(function () {
-            resolve();
-        }).catch(function (err) {
-            reject(err);
-        })
-    })
-}
-
 function challengeSolver(arrayElem, page) {
     return new Promise(function (resolve, reject) {
         let clickSolveChallenge = arrayElem.click(".ui-btn.ui-btn-normal.primary-cta.ui-btn-primary.ui-btn-styled", { delay: 100 });
@@ -103,6 +89,21 @@ function challengeSolver(arrayElem, page) {
                 return waitClick5;
             }).then(function () {
                 console.log("Submitted!");
+            }).then(function () {
+                resolve();
+            }).catch(function (err) {
+                reject(err);
+            })
+    })
+}
+
+function waitAndClick(selector, page) {
+    return new Promise(function (resolve, reject) {
+        let waitingForSelector = page.waitForSelector(selector, { visible: true });
+        waitingForSelector
+            .then(function () {
+                let clickingSelector = page.click(selector, { delay: 100 });
+                return clickingSelector;
             }).then(function () {
                 resolve();
             }).catch(function (err) {
