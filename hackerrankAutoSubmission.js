@@ -1,9 +1,15 @@
+// npm i puppeteer
 let puppeteer = require('puppeteer');
+
+// importing "answers" and "loginCredentials" file code here
 let codeAnswers = require('./answers');
 let loginCredentials = require('./loginCredentials');
+
+// hackerrank link that will open at launch
 let hkLoginLink = "https://www.hackerrank.com/auth/login";
 let page;
 
+// launching puppeteer and creating first promise
 let initBrowser = puppeteer.launch(
     {
         headless: false,
@@ -12,6 +18,16 @@ let initBrowser = puppeteer.launch(
     }
 );
 
+// Taking that promise and resolving it using "then"
+// Putting a new function(carrying out a new task) on the data obtained by resolved promise
+// Which creates a new promise, so returning a new promise again
+// which is futher resolved by using "then" again
+// ****************************************************************************************
+// This use of "then" again and again is called chaining
+// It helps the async functions to act in a synchronous manner
+// ****************************************************************************************
+// Here, all the other things are being handled like- opening browser, then tab of hackerrank,
+// then, logging in, then finally to point of submiiting answers
 initBrowser
     .then(function (browserObj) {
         console.log('Browser Opened!');
@@ -53,6 +69,8 @@ initBrowser
         console.log("Challenge is solved!");
     })
 
+// this submits answers by solving each challenge one by one
+// it takes answers from "answers" file
 function challengeSolver(arrayElem, page) {
     return new Promise(function (resolve, reject) {
         let clickSolveChallenge = arrayElem.click(".ui-btn.ui-btn-normal.primary-cta.ui-btn-primary.ui-btn-styled", { delay: 100 });
@@ -97,6 +115,11 @@ function challengeSolver(arrayElem, page) {
     })
 }
 
+// It is just a helper function
+// only made bcz certain tasks were needed to be done again and again
+// so, wrapped into a promise returing function
+// So, instead of carrying out individual tasks one by one until last promise is generated to be used further,
+// all tasks are wrapped into a fn and return just final promise (outcome)
 function waitAndClick(selector, page) {
     return new Promise(function (resolve, reject) {
         let waitingForSelector = page.waitForSelector(selector, { visible: true });

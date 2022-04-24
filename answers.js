@@ -1,3 +1,5 @@
+// exporting -> answers to the hackerrank questions needed to be solved
+// stored in an array of strings
 module.exports = {
     answers: [
         `#include <bits/stdc++.h>
